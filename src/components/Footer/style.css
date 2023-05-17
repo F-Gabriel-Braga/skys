@@ -1,0 +1,33 @@
+.footer {
+    background-color: #550FED;
+    padding: 20px 30px;
+}
+
+.footer .logo {
+    width: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer .logo span {
+    color: white;
+    font-size: 0.7rem;
+}
+
+.footer .logo img {
+    width: 100%;
+}
+
+.footer .nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.footer .nav a {
+    color: white;
+}
