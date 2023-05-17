@@ -1,0 +1,48 @@
+.home {
+    width: 100%;
+    min-height: 100vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.home .filter-flight {
+    background-color: #550FED;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.filter-flight h3 {
+    margin: 0;
+    font-size: 0.8rem;
+    color: white;
+}
+
+.filter-flight .filters {
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    gap: 15px;
+}
+
+.filter-flight .filters .filter,
+.filter-flight .filters .btn-filter {
+    height: 50px;
+    border-radius: 5px;
+    width: 140px;
+}
+
+.filter-flight .filters .filter {
+    overflow: hidden;
+}
+
+.filter-flight .filters .filter .filter-text {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    font-size: 0.8rem;
+}

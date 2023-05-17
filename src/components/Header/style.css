@@ -1,0 +1,42 @@
+.header {
+    width: 100%;
+    background-color: #550FED;
+    padding: 10px 30px;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.header .logo {
+    width: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+    justify-content: center;
+}
+
+.header .logo span {
+    color: white;
+    font-size: 0.7rem;
+}
+
+.header .logo img {
+    width: 100%;
+}
+
+.header .nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.header .nav a {
+    text-decoration: none;
+    color: white;
+}
+
+.header .nav .logout {
+    font-size: 1.5rem;
+}
