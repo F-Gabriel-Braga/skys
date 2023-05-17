@@ -1,11 +1,20 @@
-import Footer from "./components/Footer";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Access from "./screens/Access";
+import Root from "./screens/Root";
+import Signin from "./screens/Signin";
 
 function App() {
   return (
     <div className="App">
-      <Access />
-      <Footer />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/access" element={<Access />} />
+          <Route path="/signin" element={<Signin />} />
+          <Route path="/" element={<Root />}>
+
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }

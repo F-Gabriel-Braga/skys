@@ -1,6 +1,6 @@
 import "./style.css";
 
-function Header() {
+export default function Header() {
     return (
         <header className="header">
             <div className="container mx-4">
