@@ -14,16 +14,16 @@ export default function Footer() {
                     <span>SKY'S</span>
                 </Link>
                 <div className="nav">
-                    <a href="">Termos e condições e política de privacidade</a>
-                    <a href="">
+                    <Link to="/terms">Termos e condições e política de privacidade</Link>
+                    <Link to="/">
                         <img src={facebo} alt="" />
-                    </a>
-                    <a href="">
+                    </Link>
+                    <Link to="/">
                         <img src={instag} alt="" />
-                    </a>
-                    <a href="">
+                    </Link>
+                    <Link to="/">
                         <img src={twiter} alt="" />
-                    </a>
+                    </Link>
                 </div>
             </div>    
         </header>
