@@ -1,0 +1,8 @@
+.tickets {
+    min-height: 100vh;
+    margin-top: 80px;
+}
+
+.tickets table th {
+    color: #550FED;
+}

@@ -1,6 +1,7 @@
 import "./style.css";
 import logo from "../../assets/images/skys.svg";
 import { Link } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
 export default function Header() {
     return (
@@ -11,11 +12,11 @@ export default function Header() {
                     <span>SKY'S</span>
                 </Link>
                 <div className="nav">
-                    <a href="">Consultar Voos</a>
-                    <a href="">Reservar Viagens</a>
-                    <a href="" className="logout">
+                    <Link to="/">Consultar Voos</Link>
+                    <Link to="/tickets">Reservar Viagens</Link>
+                    <Button variant="link" className="logout">
                         <i class="bi bi-box-arrow-right"></i>
-                    </a>
+                    </Button>
                 </div>
             </div>    
         </header>
