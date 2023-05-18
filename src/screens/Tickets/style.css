@@ -7,6 +7,10 @@
     color: #550FED;
 }
 
+.modal .modal-header .modal-title {
+    color: #550FED;
+}
+
 .modal .modal-body span {
     display: block;
     line-height: 2.5rem;

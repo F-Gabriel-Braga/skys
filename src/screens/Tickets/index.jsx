@@ -5,9 +5,13 @@ import { useState } from "react";
 export default function Tickets() {
 
     const [showTicket, setShowTicket] = useState(false);
+    const [showDelTicket, setShowDelTicket] = useState(false);
 
     const handleCloseTicket = () => setShowTicket(false);
     const handleShowTicket = () => setShowTicket(true);
+
+    const handleCloseDelTicket = () => setShowDelTicket(false);
+    const handleShowDelTicket = () => setShowDelTicket(true);
 
     return (
         <div className="tickets sec">
@@ -36,7 +40,7 @@ export default function Tickets() {
                         <td>São Paulo, SP</td>
                         <td>20/6/2023</td>
                         <td className="d-flex flex-row gap-2 justify-content-center">
-                            <Button variant="danger">Cancelar</Button>
+                            <Button variant="danger" onClick={handleShowDelTicket}>Cancelar</Button>
                             <Button>Comprar</Button>
                         </td>
                     </tr>
@@ -46,7 +50,7 @@ export default function Tickets() {
                         <td>São Paulo, SP</td>
                         <td>20/6/2023</td>
                         <td className="d-flex flex-row gap-2 justify-content-center">
-                            <Button variant="danger">Cancelar</Button>
+                            <Button variant="danger" onClick={handleShowDelTicket}>Cancelar</Button>
                             <Button>Comprar</Button>
                         </td>
                     </tr>
@@ -56,7 +60,7 @@ export default function Tickets() {
                         <td>São Paulo, SP</td>
                         <td>20/6/2023</td>
                         <td className="d-flex flex-row gap-2 justify-content-center">
-                            <Button variant="danger">Cancelar</Button>
+                            <Button variant="danger" onClick={handleShowDelTicket}>Cancelar</Button>
                             <Button>Comprar</Button>
                         </td>
                     </tr>
@@ -122,6 +126,25 @@ export default function Tickets() {
                     <span>02:35 - 7:35</span>
                     <span className="pay">Pagamento realizado com sucesso</span>
                 </Modal.Body>
+            </Modal>
+
+            <Modal show={showDelTicket} onHide={handleCloseDelTicket}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Deseja cancelar esta reserva?</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <span>Fortaleza, CE <i className="bi bi-arrow-right"></i> São Paulo, SP</span>
+                    <span>20/6/2023</span>
+                    <span>02:35 - 7:35</span>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="danger" onClick={handleCloseDelTicket}>
+                        Fechar
+                    </Button>
+                    <Button variant="primary">
+                        Confirmar
+                    </Button>
+                </Modal.Footer>
             </Modal>
         </div>
     );
