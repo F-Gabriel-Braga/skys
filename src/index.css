@@ -6,3 +6,14 @@
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
+
+h1 {
+    font-size: 3rem;
+    color: #550FED;
+}
+
+.sec {
+    width: clamp(300px, 80%, 1100px);
+    padding: 30px 15px;
+    margin: 0 auto;
+}
