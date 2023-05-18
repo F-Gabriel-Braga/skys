@@ -17,3 +17,17 @@ h1, h2 {
     padding: 30px 15px;
     margin: 0 auto;
 }
+
+.modal .modal-header .modal-title {
+    color: #550FED;
+}
+
+.modal .modal-body span {
+    display: block;
+    line-height: 2.5rem;
+    font-size: 1.3rem;
+}
+
+.modal .modal-body .pay {
+    font-size: 1rem;
+}

@@ -6,6 +6,7 @@ import Home from "./screens/Home";
 import Signup from "./screens/Signup";
 import TermsPolicies from "./screens/TermsPolicies";
 import Tickets from "./screens/Tickets";
+import Flights from "./screens/Flights";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/" element={<Root />}>
             <Route path="/" element={<Home />} />
             <Route path="/tickets" element={<Tickets />} />
+            <Route path="/flights" element={<Flights />} />
           </Route>
         </Routes>
       </BrowserRouter>

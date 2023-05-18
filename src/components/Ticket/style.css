@@ -1,0 +1,87 @@
+.ticket {
+    width: 100%;
+    border: 1px solid #B4B4B4;
+    border-radius: 6px;
+
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 15px 20px #eddede;
+    z-index: 10;
+}
+
+.ticket .date-situation {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: #B4B4B4;
+    padding: 5px 30px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 0px 0px 6px 0px;
+}
+
+.ticket .date-situation .situation {
+    font-size: 1.1rem;
+}
+
+.ticket .date-situation .date {
+    font-size: 0.7rem;
+}
+
+.ticket .detail-point {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.ticket .detail-point .title-detail {
+    font-size: 0.7rem;
+}
+
+.ticket .detail-point .city-detail {
+    font-size: 1.5rem;
+}
+
+.ticket .detail-point .date-hour-detail {
+    font-size: 0.8rem;
+}
+
+.ticket .span {
+    flex: 1;
+}
+
+.ticket .middle {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ticket .price-details {
+    padding: 10px 20px;
+    flex: 1;
+    border-left: 1px dashed #B4B4B4;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    justify-content: space-between;
+}
+
+.ticket .price-details .price-detail,
+.ticket .price-details .title-price {
+    font-size: 0.8rem;
+}
+
+.ticket .price-details .price-detail strong {
+    font-size: 2rem;
+}
+
+.ticket .price-details button {
+    width: 100%;
+}
