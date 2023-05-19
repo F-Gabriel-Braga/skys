@@ -7,6 +7,7 @@ import Signup from "./screens/Signup";
 import TermsPolicies from "./screens/TermsPolicies";
 import Tickets from "./screens/Tickets";
 import Flights from "./screens/Flights";
+import Payment from "./screens/Payment";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/tickets" element={<Tickets />} />
             <Route path="/flights" element={<Flights />} />
+            <Route path="/payment" element={<Payment />} />
           </Route>
         </Routes>
       </BrowserRouter>

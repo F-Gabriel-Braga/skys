@@ -10,7 +10,7 @@ export default function Signup() {
                 <div className="sec">
                     <h1>Cadastro de Conta</h1>
                     <Form className="mt-4">
-                        <fieldset>
+                        <fieldset className="box mb-5">
                             <legend>E-mail</legend>
                             <Form.Group className="mb-3">
                                 <Form.Label>E-mail</Form.Label>
@@ -22,7 +22,7 @@ export default function Signup() {
                             </Form.Group>
                         </fieldset>
 
-                        <fieldset>
+                        <fieldset className="box mb-5">
                             <legend>Senha</legend>
                             <Form.Group className="mb-3">
                                 <Form.Label>Senha</Form.Label>
@@ -34,7 +34,7 @@ export default function Signup() {
                             </Form.Group>
                         </fieldset>
 
-                        <fieldset>
+                        <fieldset className="box mb-5">
                             <legend>Dados pessoais</legend>
                             <Form.Group className="mb-3">
                                 <Form.Label>Nome</Form.Label>

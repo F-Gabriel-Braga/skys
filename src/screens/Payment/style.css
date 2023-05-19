@@ -1,0 +1,32 @@
+.payment {
+    min-height: 100vh;
+    margin-top: 80px;
+}
+
+.payment .fields {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.payment .qrcode {
+    width: 200px;
+    height: 200px;
+}
+
+.payment .pay .resume {
+    font-size: 1.2rem !important;
+}
+
+.payment .pay .price {
+    font-size: 0.8rem;
+}
+
+.payment .pay .price strong {
+    font-size: 3rem;
+}
+
+.payment button {
+    height: 50px;
+}

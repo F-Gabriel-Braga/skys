@@ -18,6 +18,21 @@ h1, h2 {
     margin: 0 auto;
 }
 
+.box {
+    width: 100%;
+    border: 1px solid #B4B4B4;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 15px 20px #eddede;
+    padding: 15px;
+    z-index: 10;
+}
+
+.box legend {
+    color: #550FED;
+    font-size: 1.5rem;
+}
+
 .modal .modal-header .modal-title {
     color: #550FED;
 }
