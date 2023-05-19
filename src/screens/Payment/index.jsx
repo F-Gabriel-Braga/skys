@@ -4,6 +4,22 @@ import { useState } from "react";
 import qrcode from "../../assets/images/test.svg";
 
 export default function Payment() {
+
+    const [card, setCard] = useState(false);
+    const [pix, setPix] = useState(false);
+
+    function checkCard(e) {
+        const check = e.target.checked;
+        setCard(check);
+        setPix(false);
+    }
+
+    function checkPix(e) {
+        const check = e.target.checked;
+        setPix(check);
+        setCard(false);
+    }
+
     return (
         <div className="payment">
             <div className="sec">
@@ -11,11 +27,11 @@ export default function Payment() {
                 <Form className="mt-4">
                     <fieldset className="box mb-5">
                         <legend>Escolha o formato de pagamento</legend>
-                        <Form.Check type="radio" label="Cartão" id="card" name="pay" className="mt-2" />
-                        <Form.Check type="radio" label="Pix" id="pix" name="pay" className="mt-2" />
+                        <Form.Check type="radio" label="Cartão" id="card" name="pay" className="mt-2" onChange={checkCard} />
+                        <Form.Check type="radio" label="Pix" id="pix" name="pay" className="mt-2" onChange={checkPix} />
                     </fieldset>
 
-                    <fieldset className="box mb-5">
+                    {card && <fieldset className="box mb-5">
                         <legend>Complete com os dados do cartão</legend>
                         <div className="fields">
                             <Form.Group style={{width: "48%"}} className="mb-3">
@@ -39,15 +55,15 @@ export default function Payment() {
                                 <Form.Control type="number" />
                             </Form.Group>
                         </div>
-                    </fieldset>
+                    </fieldset>}
 
-                    <fieldset className="box mb-5">
+                    {pix && <fieldset className="box mb-5">
                         <legend>Complete com o escaneamento do QR Code</legend>
                         <div className="w-100 mt-5 d-flex flex-column align-items-center">
                             <img src={qrcode} alt="QRCode" className="qrcode" />
                             <span className="mt-3">4gghjyjtvm6v7h4v674v7467n4v67n4v7n4v</span>
                         </div>
-                    </fieldset>
+                    </fieldset>}
 
                     <fieldset className="box mb-5">
                         <legend>Resumo da Compra</legend>

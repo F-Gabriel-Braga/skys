@@ -1,6 +1,7 @@
 import { Button, Modal, Table } from "react-bootstrap";
 import "./style.css";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Tickets() {
 
@@ -41,7 +42,7 @@ export default function Tickets() {
                         <td>20/6/2023</td>
                         <td className="d-flex flex-row gap-2 justify-content-center">
                             <Button variant="danger" onClick={handleShowDelTicket}>Cancelar</Button>
-                            <Button>Comprar</Button>
+                            <Button as={Link} to="/payment">Comprar</Button>
                         </td>
                     </tr>
                     <tr>
@@ -51,7 +52,7 @@ export default function Tickets() {
                         <td>20/6/2023</td>
                         <td className="d-flex flex-row gap-2 justify-content-center">
                             <Button variant="danger" onClick={handleShowDelTicket}>Cancelar</Button>
-                            <Button>Comprar</Button>
+                            <Button as={Link} to="/payment">Comprar</Button>
                         </td>
                     </tr>
                     <tr>
@@ -61,7 +62,7 @@ export default function Tickets() {
                         <td>20/6/2023</td>
                         <td className="d-flex flex-row gap-2 justify-content-center">
                             <Button variant="danger" onClick={handleShowDelTicket}>Cancelar</Button>
-                            <Button>Comprar</Button>
+                            <Button as={Link} to="/payment">Comprar</Button>
                         </td>
                     </tr>
                 </tbody>
