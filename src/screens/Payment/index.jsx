@@ -2,57 +2,136 @@ import { Button, Form, Modal, Table } from "react-bootstrap";
 import "./style.css";
 import { useState } from "react";
 import qrcode from "../../assets/images/test.svg";
+import { useForm } from "react-hook-form";
 
 export default function Payment() {
 
     const [card, setCard] = useState(false);
     const [pix, setPix] = useState(false);
+    const [paymentError, setPaymentError] = useState(true);
+    const { handleSubmit, register, formState: { errors, isSubmitted } } = useForm();
 
     function checkCard(e) {
         const check = e.target.checked;
         setCard(check);
         setPix(false);
+        setPaymentError(false);
     }
 
     function checkPix(e) {
         const check = e.target.checked;
         setPix(check);
         setCard(false);
+        setPaymentError(false);
+    }
+
+    const validatePayment = {
+        required: {
+            value: true,
+            message: "Selecione o método de pagamento."
+        }
+    };
+
+    const validateOwnerCard = {
+        required: {
+            value: true,
+            message: "O nome do titular é obrigatório."
+        },
+        maxLength: {
+            value: 150,
+            message: "O nome do titular não pode ultrapassar 150 caracteres."
+        }
+    };
+
+    const validateCPFCard = {
+        required: {
+            value: true,
+            message: "O CPF é obrigatório."
+        },
+        maxLength: {
+            value: 11,
+            message: "O CPF não pode ultrapassar 11 caracteres."
+        }
+    };
+
+    const validateNumberCard = {
+        required: {
+            value: true,
+            message: "O número do cartão é obrigatório."
+        },
+        maxLength: {
+            value: 50,
+            message: "O CPF não pode ultrapassar 50 caracteres."
+        }
+    };
+
+    const validateTermCard = {
+        required: {
+            value: true,
+            message: "A data de vencimento do cartão é obrigatório."
+        },
+        maxLength: {
+            value: 10,
+            message: "A data de vencimento do cartão não pode ultrapassar 10 caracteres."
+        }
+    };
+
+    const validateCodeCard = {
+        required: {
+            value: true,
+            message: "O código de segurança do cartão é obrigatório."
+        },
+        maxLength: {
+            value: 3,
+            message: "O código de segurança do cartão não pode ultrapassar 3 caracteres."
+        }
+    };
+
+    function onSubmit(data) {
+        if(!paymentError) {
+            alert("Compra efetuada com sucesso.");
+        }
     }
 
     return (
         <div className="payment">
             <div className="sec">
                 <h2>Falta pouco! Complete seus dados e finalize sua compra.</h2>
-                <Form className="mt-4">
+                <Form className="mt-4" onSubmit={handleSubmit(onSubmit)}>
                     <fieldset className="box mb-5">
                         <legend>Escolha o formato de pagamento</legend>
-                        <Form.Check type="radio" label="Cartão" id="card" name="pay" className="mt-2" onChange={checkCard} />
-                        <Form.Check type="radio" label="Pix" id="pix" name="pay" className="mt-2" onChange={checkPix} />
+                        <Form.Check type="radio" label="Cartão" id="card" name="payment" className={(paymentError && isSubmitted) && "mb-2 is-invalid"} onChange={checkCard} />
+                        <Form.Check type="radio" label="Pix" id="pix" name="payment" className={(paymentError && isSubmitted) && "mb-2 is-invalid"} onChange={checkPix} />
+                        {(paymentError && isSubmitted) && <Form.Text className="invalid-feedback">Selecione o método de pagamento.</Form.Text>}
                     </fieldset>
 
-                    {card && <fieldset className="box mb-5">
+                        {card && <fieldset disabled={!card} className="box mb-5">
                         <legend>Complete com os dados do cartão</legend>
                         <div className="fields">
-                            <Form.Group style={{width: "48%"}} className="mb-3">
+                            <Form.Group style={{width: "48%"}} className="mb-2">
                                 <Form.Label>Titular</Form.Label>
-                                <Form.Control type="text" />
+                                <Form.Control type="text" className={errors.owner && "mb-2 is-invalid"} {...register("owner", validateOwnerCard)} />
+                                {errors.owner && <Form.Text className="invalid-feedback">{errors.owner.message}</Form.Text>}
                             </Form.Group>
-                            <Form.Group style={{width: "48%"}} className="mb-3">
+                            <Form.Group style={{width: "48%"}} className="mb-2">
                                 <Form.Label>CPF</Form.Label>
-                                <Form.Control type="text" />
+                                <Form.Control type="text" className={errors.cpf && "mb-2 is-invalid"} {...register("cpf", validateCPFCard)} />
+                                {errors.cpf && <Form.Text className="invalid-feedback">{errors.cpf.message}</Form.Text>}
                             </Form.Group>
-                            <Form.Group style={{width: "48%"}} className="mb-3">
+                            <Form.Group style={{width: "48%"}} className="mb-2">
                                 <Form.Label>Número</Form.Label>
-                                <Form.Control type="number" />
+                                <Form.Control type="number" className={errors.number && "mb-2 is-invalid"} {...register("number", validateNumberCard)} />
+                                {errors.number && <Form.Text className="invalid-feedback">{errors.number.message}</Form.Text>}
                             </Form.Group>
-                            <Form.Group style={{width: "22%"}} className="mb-3">
+                            <Form.Group style={{width: "22%"}} className="mb-2">
                                 <Form.Label>Vecimento</Form.Label>
-                                <Form.Control type="number" />
+                                <Form.Control type="number" className={errors.term && "mb-2 is-invalid"} {...register("term", validateTermCard)} />
+                                {errors.term && <Form.Text className="invalid-feedback">{errors.term.message}</Form.Text>}
                             </Form.Group>
-                            <Form.Group style={{width: "22%"}} className="mb-3">
+                            <Form.Group style={{width: "22%"}} className="mb-2">
                                 <Form.Label>Código de segurança</Form.Label>
-                                <Form.Control type="number" />
+                                <Form.Control type="number" className={errors.code && "mb-2 is-invalid"} {...register("code", validateCodeCard)} />
+                                {errors.code && <Form.Text className="invalid-feedback">{errors.code.message}</Form.Text>}
                             </Form.Group>
                         </div>
                     </fieldset>}
@@ -72,7 +151,7 @@ export default function Payment() {
                                 <span className="resume">Fortaleza - São Paulo</span>
                                 <span className="price">R$ <strong>1200</strong></span>
                             </div>
-                            <Button className="w-50 ">Finalizar compra</Button>
+                            <Button className="w-50" type="submit">Finalizar compra</Button>
                         </div>
                     </fieldset>
                 </Form>
