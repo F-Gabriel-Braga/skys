@@ -9,25 +9,32 @@ import Tickets from "./screens/Tickets";
 import Flights from "./screens/Flights";
 import Payment from "./screens/Payment";
 import Manager from "./screens/Manager";
+import AuthContext from "./context/AuthContext";
+import { useState } from "react";
 
 function App() {
+  
+  const [userLogged, setUserLogged] = useState(null);
+
   return (
     <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/access" element={<Access />} />
-          <Route path="/signin" element={<Signin />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/terms" element={<TermsPolicies />} />
-          <Route path="/" element={<Root />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/tickets" element={<Tickets />} />
-            <Route path="/flights" element={<Flights />} />
-            <Route path="/payment" element={<Payment />} />
-            <Route path="/manager" element={<Manager />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <AuthContext.Provider value={{userLogged, setUserLogged}}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/access" element={<Access />} />
+            <Route path="/signin" element={<Signin />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/terms" element={<TermsPolicies />} />
+            <Route path="/" element={<Root />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/tickets" element={<Tickets />} />
+              <Route path="/flights" element={<Flights />} />
+              <Route path="/payment" element={<Payment />} />
+              <Route path="/manager" element={<Manager />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </AuthContext.Provider>
     </div>
   );
 }

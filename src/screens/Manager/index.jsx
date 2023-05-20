@@ -247,19 +247,19 @@ export default function Manager() {
                             <div className="double">
                                 <Form.Group className="w-100 mb-3">
                                     <Form.Label>Capacidade</Form.Label>
-                                    <Form.Control type="text" className={errors.capacity && "is-invalid"} {...register("capacity", validateCapacity)} />
+                                    <Form.Control type="number" className={errors.capacity && "is-invalid"} {...register("capacity", validateCapacity)} />
                                     {errors.capacity && <Form.Text className="invalid-feedback">{errors.capacity.message}</Form.Text>}
                                 </Form.Group>
                                 <Form.Group className="w-100 mb-3">
                                     <Form.Label>Duração</Form.Label>
-                                    <Form.Control type="text" className={errors.duration && "is-invalid"} {...register("duration", validateDuration)} />
+                                    <Form.Control type="number" className={errors.duration && "is-invalid"} {...register("duration", validateDuration)} />
                                     {errors.duration && <Form.Text className="invalid-feedback">{errors.duration.message}</Form.Text>}
                                 </Form.Group>
                             </div>
                             <div className="double">
                                 <Form.Group className="w-100 mb-3">
-                                    <Form.Label>Preço passagem</Form.Label>
-                                    <Form.Control type="text" className={errors.price && "is-invalid"} {...register("price", validatePrice)} />
+                                    <Form.Label>Preço da passagem</Form.Label>
+                                    <Form.Control type="number" className={errors.price && "is-invalid"} {...register("price", validatePrice)} />
                                     {errors.price && <Form.Text className="invalid-feedback">{errors.price.message}</Form.Text>}
                                 </Form.Group>
                                 <Form.Group className="w-100 mb-3">

@@ -2,13 +2,29 @@ import "./style.css";
 import { Button, Form } from "react-bootstrap";
 import Footer from "../../components/Footer";
 import { useForm } from "react-hook-form";
+import axios from "axios";
+import config from "../../config/api-config";
+import { Toaster, toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import AuthContext from "../../context/AuthContext";
 
 export default function Signin() {
     
     const { handleSubmit, register, formState: { errors } } = useForm();
+    const navigate = useNavigate();
+    const { setUserLogged } = useContext(AuthContext);
 
     function onSubmit(data) {
-        alert("Bem-vindo!");
+        const { email, password } = data;
+        axios.post(`${config.BASE_URL}/auth/signin`, { email, password }).then(response => {
+            setUserLogged(response.data);
+            toast.success("Bem-vindo!", { duration: 2500, position: "top-right" });
+            navigate("/");
+        }).catch(error => {
+            toast.error("Acesso negado!", { duration: 2500, position: "top-right" });
+            console.log(error);
+        });
     }
 
     const validateEmail = {
@@ -60,6 +76,7 @@ export default function Signin() {
                 </Form>
             </div>
             <Footer />
+            <Toaster />
         </>
     );
 }
