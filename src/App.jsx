@@ -8,6 +8,7 @@ import TermsPolicies from "./screens/TermsPolicies";
 import Tickets from "./screens/Tickets";
 import Flights from "./screens/Flights";
 import Payment from "./screens/Payment";
+import Manager from "./screens/Manager";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route path="/tickets" element={<Tickets />} />
             <Route path="/flights" element={<Flights />} />
             <Route path="/payment" element={<Payment />} />
+            <Route path="/manager" element={<Manager />} />
           </Route>
         </Routes>
       </BrowserRouter>

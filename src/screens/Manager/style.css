@@ -1,0 +1,11 @@
+.manager {
+    margin-top: 80px;
+    min-height: 100vh;
+}
+
+.manager .double {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+}
