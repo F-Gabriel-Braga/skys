@@ -26,7 +26,7 @@ export default function Header() {
                     <Link to="/">Consultar Voos</Link>
                     <Link to="/tickets">Reservar Viagens</Link>
                     <Button variant="link" className="logout" onClick={signout}>
-                        <i class="bi bi-box-arrow-right"></i>
+                        <i className="bi bi-box-arrow-right"></i>
                     </Button>
                 </div>
             </div>    
