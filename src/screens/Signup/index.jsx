@@ -1,12 +1,16 @@
 import "./style.css";
 import { Button, Form } from "react-bootstrap";
 import Footer from "../../components/Footer";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import axios from "axios";
+import config from "../../config/api-config";
+import { Toaster, toast } from "react-hot-toast";
 
 export default function Signup() {
 
     const { handleSubmit, register, watch, formState: { errors } } = useForm();
+    const navigate = useNavigate();
 
     const validateEmail = {
         required: {
@@ -100,7 +104,14 @@ export default function Signup() {
     };
 
     function onSubmit(data) {
-        alert("Cadastrado");
+        const { email, password, firstName, lastName, cpf, phone } = data;
+        axios.post(`${config.BASE_URL}/auth/signup`, { email, password, firstName, lastName, cpf, phone }).then(response => {
+            toast.success("Seu cadastro foi conclíudo!", { duration: 2500, position: "top-right" });
+            navigate("/signin");
+        }).catch(error => {
+            toast.error("Algo deu errado!", { duration: 2500, position: "top-right" });
+            console.log(error);
+        });
     }
 
     return (
@@ -172,6 +183,7 @@ export default function Signup() {
                 </div>
             </div>
             <Footer />
+            <Toaster />
         </>
     );
 }
