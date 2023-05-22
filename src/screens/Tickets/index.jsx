@@ -1,12 +1,19 @@
 import { Button, Modal, Table } from "react-bootstrap";
 import "./style.css";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import config from "../../config/api-config";
+import AuthContext from "../../context/AuthContext";
+import jwtDecode from "jwt-decode";
 
 export default function Tickets() {
 
     const [showTicket, setShowTicket] = useState(false);
     const [showDelTicket, setShowDelTicket] = useState(false);
+    const [reserves, setReserves] = useState([]);
+    const [travels, setTravels] = useState([]);
+    const [payload, setPaylod] = useState(null);
 
     const handleCloseTicket = () => setShowTicket(false);
     const handleShowTicket = () => setShowTicket(true);
@@ -14,15 +21,48 @@ export default function Tickets() {
     const handleCloseDelTicket = () => setShowDelTicket(false);
     const handleShowDelTicket = () => setShowDelTicket(true);
 
+    const { userLogged } = useContext(AuthContext);
+
+    useEffect(() => {
+        const payload = jwtDecode(userLogged.accessToken);
+        setPaylod(payload);
+        console.log(payload)
+    }, [userLogged]);
+
+    useEffect(() => {
+        if(userLogged && payload) {
+            initializaReserves();
+            initializaTravels();
+        }
+    }, [userLogged, payload]);
+
+    function initializaReserves() {
+        const headers = { "Authorization": `${userLogged.tokenType} ${userLogged.accessToken}` };
+        axios.get(`${config.BASE_URL}/tickets/reserves/${payload?.id}`, { headers }).then(response => {
+            setReserves(response.data);
+        }).catch(error => {
+            console.log(error);
+        });
+    }
+
+    function initializaTravels() {
+        const headers = { "Authorization": `${userLogged.tokenType} ${userLogged.accessToken}` };
+        axios.get(`${config.BASE_URL}/tickets/travels/${payload?.id}`, { headers }).then(response => {
+            setTravels(response.data);
+        }).catch(error => {
+            console.log(error);
+        });
+    }
+
     return (
         <div className="tickets sec">
             <h2>Reservas</h2>
             <Table striped bordered hover>
                 <colgroup>
                     <col style={{ width: "15%" }} />
-                    <col style={{ width: "25%" }} />
-                    <col style={{ width: "25%" }} />
-                    <col style={{ width: "15%" }} />
+                    <col style={{ width: "22%" }} />
+                    <col style={{ width: "22%" }} />
+                    <col style={{ width: "19%" }} />
                     <col style={{ width: "20%" }} />
                 </colgroup>
                 <thead>
@@ -35,36 +75,20 @@ export default function Tickets() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Ida</td>
-                        <td>Fortaleza, CE</td>
-                        <td>São Paulo, SP</td>
-                        <td>20/6/2023</td>
-                        <td className="d-flex flex-row gap-2 justify-content-center">
-                            <Button variant="danger" onClick={handleShowDelTicket}>Cancelar</Button>
-                            <Button as={Link} to="/payment">Comprar</Button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Ida</td>
-                        <td>Fortaleza, CE</td>
-                        <td>São Paulo, SP</td>
-                        <td>20/6/2023</td>
-                        <td className="d-flex flex-row gap-2 justify-content-center">
-                            <Button variant="danger" onClick={handleShowDelTicket}>Cancelar</Button>
-                            <Button as={Link} to="/payment">Comprar</Button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Ida</td>
-                        <td>Fortaleza, CE</td>
-                        <td>São Paulo, SP</td>
-                        <td>20/6/2023</td>
-                        <td className="d-flex flex-row gap-2 justify-content-center">
-                            <Button variant="danger" onClick={handleShowDelTicket}>Cancelar</Button>
-                            <Button as={Link} to="/payment">Comprar</Button>
-                        </td>
-                    </tr>
+                    {reserves.map(reserve => {
+                        return (
+                            <tr key={reserve.id}>
+                                <td>{reserve.type}</td>
+                                <td>{reserve.flight?.to}</td>
+                                <td>{reserve.flight?.from}</td>
+                                <td>{reserve.dateHourFlight}</td>
+                                <td className="d-flex flex-row gap-2 justify-content-center">
+                                    <Button variant="danger" onClick={handleShowDelTicket}>Cancelar</Button>
+                                    <Button as={Link} to="/payment">Comprar</Button>
+                                </td>
+                            </tr>
+                        )
+                    })}
                 </tbody>
             </Table><br />
             <h2>Viagens</h2>
@@ -86,33 +110,19 @@ export default function Tickets() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Ida</td>
-                        <td>Fortaleza, CE</td>
-                        <td>São Paulo, SP</td>
-                        <td>20/6/2023</td>
-                        <td className="d-flex flex-row gap-2 justify-content-center">
-                            <Button onClick={handleShowTicket}>Bilhete</Button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Ida</td>
-                        <td>Fortaleza, CE</td>
-                        <td>São Paulo, SP</td>
-                        <td>20/6/2023</td>
-                        <td className="d-flex flex-row gap-2 justify-content-center">
-                            <Button onClick={handleShowTicket}>Bilhete</Button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Ida</td>
-                        <td>Fortaleza, CE</td>
-                        <td>São Paulo, SP</td>
-                        <td>20/6/2023</td>
-                        <td className="d-flex flex-row gap-2 justify-content-center">
-                            <Button onClick={handleShowTicket}>Bilhete</Button>
-                        </td>
-                    </tr>
+                    {travels.map(travel => {
+                        return (
+                            <tr key={travel.id}>
+                                <td>{travel.id}</td>
+                                <td>{travel.flight.to}</td>
+                                <td>{travel.flight.from}</td>
+                                <td>{travel.dateHourFlight}</td>
+                                <td className="d-flex flex-row gap-2 justify-content-center">
+                                    <Button onClick={handleShowTicket}>Bilhete</Button>
+                                </td>
+                            </tr>
+                        )
+                    })}
                 </tbody>
             </Table><br />
 
