@@ -1,15 +1,24 @@
 import { Button, Form, Modal, Table } from "react-bootstrap";
 import "./style.css";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import qrcode from "../../assets/images/test.svg";
 import { useForm } from "react-hook-form";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+import config from "../../config/api-config";
+import { toast } from "react-hot-toast";
+import AuthContext from "../../context/AuthContext";
 
 export default function Payment() {
+
+    const { id } = useParams();
+    const { handleSubmit, register, formState: { errors, isSubmitted } } = useForm();
+    const navigate = useNavigate();
+    const { userLogged } = useContext(AuthContext);
 
     const [card, setCard] = useState(false);
     const [pix, setPix] = useState(false);
     const [paymentError, setPaymentError] = useState(true);
-    const { handleSubmit, register, formState: { errors, isSubmitted } } = useForm();
 
     function checkCard(e) {
         const check = e.target.checked;
@@ -88,8 +97,15 @@ export default function Payment() {
     };
 
     function onSubmit(data) {
-        if(!paymentError) {
-            alert("Compra efetuada com sucesso.");
+        if(id && !paymentError) {
+            const headers = { "Authorization": `${userLogged.tokenType} ${userLogged.accessToken}` };
+            axios.post(`${config.BASE_URL}/tickets/reserves/finalize/${id}`, {}, { headers }).then(() => {
+                navigate("/tickets");
+                toast.success("Compra realizada com sucesso!", { duration: 2500, position: "top-right" });
+            }).catch(error => {
+                console.log(error);
+                toast.error("Algo deu errado!", { duration: 2500, position: "top-right" });
+            });
         }
     }
 

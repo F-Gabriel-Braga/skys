@@ -26,7 +26,6 @@ export default function Tickets() {
     useEffect(() => {
         const payload = jwtDecode(userLogged.accessToken);
         setPaylod(payload);
-        console.log(payload)
     }, [userLogged]);
 
     useEffect(() => {
@@ -84,7 +83,7 @@ export default function Tickets() {
                                 <td>{reserve.dateHourFlight}</td>
                                 <td className="d-flex flex-row gap-2 justify-content-center">
                                     <Button variant="danger" onClick={handleShowDelTicket}>Cancelar</Button>
-                                    <Button as={Link} to="/payment">Comprar</Button>
+                                    <Button as={Link} to={`/payment/${reserve.id}`}>Comprar</Button>
                                 </td>
                             </tr>
                         )
@@ -113,7 +112,7 @@ export default function Tickets() {
                     {travels.map(travel => {
                         return (
                             <tr key={travel.id}>
-                                <td>{travel.id}</td>
+                                <td>{travel.type}</td>
                                 <td>{travel.flight.to}</td>
                                 <td>{travel.flight.from}</td>
                                 <td>{travel.dateHourFlight}</td>
