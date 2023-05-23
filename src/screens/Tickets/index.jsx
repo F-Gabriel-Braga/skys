@@ -15,10 +15,17 @@ export default function Tickets() {
     const [reserves, setReserves] = useState([]);
     const [travels, setTravels] = useState([]);
     const [payload, setPaylod] = useState(null);
+    const [ticket, setTicket] = useState(null);
     const [ticketDel, setTicketDel] = useState(null);
 
-    const handleCloseTicket = () => setShowTicket(false);
-    const handleShowTicket = () => setShowTicket(true);
+    const handleShowTicket = (ticket) => {
+        setTicket(ticket);
+        setShowTicket(true);
+    };
+    const handleCloseTicket = () => {
+        setTicket(null);
+        setShowTicket(false);
+    }
 
     const handleShowDelTicket = (ticket) => {
         setTicketDel(ticket);
@@ -113,8 +120,8 @@ export default function Tickets() {
                         return (
                             <tr key={reserve.id}>
                                 <td>{reserve.type}</td>
-                                <td>{reserve.flight?.to}</td>
                                 <td>{reserve.flight?.from}</td>
+                                <td>{reserve.flight?.to}</td>
                                 <td>{reserve.dateHourFlight}</td>
                                 <td className="d-flex flex-row gap-2 justify-content-center">
                                     <Button variant="danger" onClick={() => handleShowDelTicket(reserve)}>Cancelar</Button>
@@ -148,11 +155,11 @@ export default function Tickets() {
                         return (
                             <tr key={travel.id}>
                                 <td>{travel.type}</td>
-                                <td>{travel.flight.to}</td>
                                 <td>{travel.flight.from}</td>
+                                <td>{travel.flight.to}</td>
                                 <td>{travel.dateHourFlight}</td>
                                 <td className="d-flex flex-row gap-2 justify-content-center">
-                                    <Button onClick={handleShowTicket}>Bilhete</Button>
+                                    <Button onClick={() => handleShowTicket(travel)}>Bilhete</Button>
                                 </td>
                             </tr>
                         )
@@ -162,13 +169,13 @@ export default function Tickets() {
 
             <Modal show={showTicket} onHide={handleCloseTicket}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Fortaleza <i className="bi bi-arrow-right"></i> São Paulo</Modal.Title>
+                    <Modal.Title>{ticket?.flight?.from} <i className="bi bi-arrow-right"></i> {ticket?.flight?.to}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <span>N° 123</span>
-                    <span>Fortaleza, CE <i className="bi bi-arrow-right"></i> São Paulo, SP</span>
-                    <span>20/6/2023</span>
-                    <span>02:35 - 7:35</span>
+                    <span>N° {ticket?.id}</span>
+                    <span>{ticket?.flight?.from} <i className="bi bi-arrow-right"></i> {ticket?.flight?.to}</span>
+                    <span>{ticket?.dateHourFlight}</span>
+                    <span>{ticket?.dateHourLanding}</span>
                     <span className="pay">Pagamento realizado com sucesso</span>
                 </Modal.Body>
             </Modal>
