@@ -1,6 +1,6 @@
 import { Button, Form, Modal, Table } from "react-bootstrap";
 import "./style.css";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import qrcode from "../../assets/images/test.svg";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
@@ -19,6 +19,16 @@ export default function Payment() {
     const [card, setCard] = useState(false);
     const [pix, setPix] = useState(false);
     const [paymentError, setPaymentError] = useState(true);
+    const [ticket, setTicket] = useState(null);
+
+    useEffect(()=> {
+        const headers = { "Authorization": `${userLogged.tokenType} ${userLogged.accessToken}` };
+            axios.get(`${config.BASE_URL}/tickets/${id}`, { headers }).then(response => {
+                setTicket(response.data);
+            }).catch(error => {
+                console.log(error);
+            });
+    }, []);
 
     function checkCard(e) {
         const check = e.target.checked;
@@ -164,8 +174,8 @@ export default function Payment() {
                         <legend>Resumo da Compra</legend>
                         <div className="w-100 d-flex justify-content-between align-items-end">
                             <div className="pay w-50 d-flex flex-column">
-                                <span className="resume">Fortaleza - São Paulo</span>
-                                <span className="price">R$ <strong>1200</strong></span>
+                                <span className="resume">{ticket?.flight?.from} - {ticket?.flight?.to}</span>
+                                <span className="price">R$ <strong>{ticket?.price}</strong></span>
                             </div>
                             <Button className="w-50" type="submit">Finalizar compra</Button>
                         </div>
