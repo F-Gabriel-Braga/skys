@@ -6,6 +6,7 @@ import axios from "axios";
 import config from "../../config/api-config";
 import AuthContext from "../../context/AuthContext";
 import jwtDecode from "jwt-decode";
+import { toast } from "react-hot-toast";
 
 export default function Tickets() {
 
@@ -14,12 +15,19 @@ export default function Tickets() {
     const [reserves, setReserves] = useState([]);
     const [travels, setTravels] = useState([]);
     const [payload, setPaylod] = useState(null);
+    const [ticketDel, setTicketDel] = useState(null);
 
     const handleCloseTicket = () => setShowTicket(false);
     const handleShowTicket = () => setShowTicket(true);
 
-    const handleCloseDelTicket = () => setShowDelTicket(false);
-    const handleShowDelTicket = () => setShowDelTicket(true);
+    const handleShowDelTicket = (ticket) => {
+        setTicketDel(ticket);
+        setShowDelTicket(true);
+    };
+    const handleCloseDelTicket = () => {
+        setTicketDel(null);
+        setShowDelTicket(false);
+    }
 
     const { userLogged } = useContext(AuthContext);
 
@@ -35,9 +43,21 @@ export default function Tickets() {
         }
     }, [userLogged, payload]);
 
+    function formatDate(data) {
+        data.forEach(info => {
+            let dateAux = new Date(info.dateHourFlight).toLocaleDateString();
+            let hourAux = new Date(info.dateHourFlight).toLocaleTimeString();
+            info.dateHourFlight = `${dateAux} ${hourAux}`;
+            dateAux = new Date(info.dateHourLanding).toLocaleDateString();
+            hourAux = new Date(info.dateHourLanding).toLocaleTimeString();
+            info.dateHourLanding = `${dateAux} ${hourAux}`;
+        });
+    }
+
     function initializaReserves() {
         const headers = { "Authorization": `${userLogged.tokenType} ${userLogged.accessToken}` };
         axios.get(`${config.BASE_URL}/tickets/reserves/${payload?.id}`, { headers }).then(response => {
+            formatDate(response.data);
             setReserves(response.data);
         }).catch(error => {
             console.log(error);
@@ -47,10 +67,25 @@ export default function Tickets() {
     function initializaTravels() {
         const headers = { "Authorization": `${userLogged.tokenType} ${userLogged.accessToken}` };
         axios.get(`${config.BASE_URL}/tickets/travels/${payload?.id}`, { headers }).then(response => {
+            formatDate(response.data);
             setTravels(response.data);
         }).catch(error => {
             console.log(error);
         });
+    }
+
+    function deleteReserve() {
+        const headers = { "Authorization": `${userLogged.tokenType} ${userLogged.accessToken}` };
+        if(ticketDel && ticketDel.id) {
+            axios.delete(`${config.BASE_URL}/tickets/${ticketDel.id}`, { headers }).then(() => {
+                handleCloseDelTicket();
+                initializaReserves();
+                toast.success("Reserva cancelada.", { duration: 2500, position: "top-right" });
+            }).catch(error => {
+                console.log(error);
+                toast.error("Algo deu errado.", { duration: 2500, position: "top-right" });
+            });
+        }
     }
 
     return (
@@ -82,7 +117,7 @@ export default function Tickets() {
                                 <td>{reserve.flight?.from}</td>
                                 <td>{reserve.dateHourFlight}</td>
                                 <td className="d-flex flex-row gap-2 justify-content-center">
-                                    <Button variant="danger" onClick={handleShowDelTicket}>Cancelar</Button>
+                                    <Button variant="danger" onClick={() => handleShowDelTicket(reserve)}>Cancelar</Button>
                                     <Button as={Link} to={`/payment/${reserve.id}`}>Comprar</Button>
                                 </td>
                             </tr>
@@ -143,15 +178,14 @@ export default function Tickets() {
                     <Modal.Title>Deseja cancelar esta reserva?</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <span>Fortaleza, CE <i className="bi bi-arrow-right"></i> São Paulo, SP</span>
-                    <span>20/6/2023</span>
-                    <span>02:35 - 7:35</span>
+                    <span>{ticketDel?.flight?.from} <i className="bi bi-arrow-right"></i> {ticketDel?.flight?.to}</span>
+                    <span>{ticketDel?.dateHourFlight}</span>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="danger" onClick={handleCloseDelTicket}>
                         Fechar
                     </Button>
-                    <Button variant="primary">
+                    <Button variant="primary" onClick={deleteReserve}>
                         Confirmar
                     </Button>
                 </Modal.Footer>
