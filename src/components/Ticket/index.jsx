@@ -2,12 +2,13 @@ import "./style.css";
 import { Button } from "react-bootstrap";
 import middleIcon from "../../assets/icons/span.svg"
 
-export default function Ticket({ id, situation, date, hour, from, to, price }) {
+export default function Ticket({ id, type, dateHourFlight, from, to, price }) {
+    dateHourFlight = dateHourFlight ? new Date(dateHourFlight).toLocaleDateString() : dateHourFlight;
     return (
         <div className="ticket mb-4">
             <div className="date-situation">
-                <span className="situation">{situation}</span>
-                <span className="date">{date}</span>
+                <span className="situation">{type}</span>
+                <span className="date">{dateHourFlight}</span>
             </div>
             <div className="span">
                 
