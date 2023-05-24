@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import Access from "./screens/Access";
 import Root from "./screens/Root";
 import Signin from "./screens/Signin";
@@ -19,7 +19,7 @@ function App() {
   return (
     <div className="App">
       <AuthContext.Provider value={{userLogged, setUserLogged}}>
-        <BrowserRouter>
+        <HashRouter>
           <Routes>
             <Route path="/access" element={<Access />} />
             <Route path="/signin" element={<Signin />} />
@@ -33,7 +33,7 @@ function App() {
               <Route path="/manager" element={<Manager />} />
             </Route>
           </Routes>
-        </BrowserRouter>
+        </HashRouter>
       </AuthContext.Provider>
     </div>
   );
