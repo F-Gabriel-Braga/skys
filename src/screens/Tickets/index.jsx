@@ -7,13 +7,14 @@ import config from "../../config/api-config";
 import AuthContext from "../../context/AuthContext";
 import jwtDecode from "jwt-decode";
 import { toast } from "react-hot-toast";
+import Loader from "../../components/Loader";
 
 export default function Tickets() {
 
     const [showTicket, setShowTicket] = useState(false);
     const [showDelTicket, setShowDelTicket] = useState(false);
-    const [reserves, setReserves] = useState([]);
-    const [travels, setTravels] = useState([]);
+    const [reserves, setReserves] = useState(null);
+    const [travels, setTravels] = useState(null);
     const [payload, setPaylod] = useState(null);
     const [ticket, setTicket] = useState(null);
     const [ticketDel, setTicketDel] = useState(null);
@@ -98,6 +99,7 @@ export default function Tickets() {
     return (
         <div className="tickets sec">
             <h2>Reservas</h2>
+            {!reserves? <Loader /> :
             <Table striped bordered hover>
                 <colgroup>
                     <col style={{ width: "15%" }} />
@@ -131,8 +133,9 @@ export default function Tickets() {
                         )
                     })}
                 </tbody>
-            </Table><br />
+            </Table>}<br />
             <h2>Viagens</h2>
+            {!travels? <Loader /> :
             <Table striped bordered hover>
                 <colgroup>
                     <col style={{ width: "15%" }} />
@@ -165,7 +168,7 @@ export default function Tickets() {
                         )
                     })}
                 </tbody>
-            </Table><br />
+            </Table>}<br />
 
             <Modal show={showTicket} onHide={handleCloseTicket}>
                 <Modal.Header closeButton>
