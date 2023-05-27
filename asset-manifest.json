@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/skys/static/css/main.1475c6a7.css",
-    "main.js": "/skys/static/js/main.b6df3d47.js",
+    "main.js": "/skys/static/js/main.2d96b441.js",
     "static/media/beach.jpg": "/skys/static/media/beach.5b0ad3533392d461900b.jpg",
     "static/media/urban.jpg": "/skys/static/media/urban.8120997ad671d3dcb1a3.jpg",
     "static/media/bootstrap-icons.woff?": "/skys/static/media/bootstrap-icons.4753c5ba57962b4d7bf8.woff",
@@ -14,10 +14,10 @@
     "static/media/facebook-square.svg": "/skys/static/media/facebook-square.c762487c1451085a4028e0654bad84ab.svg",
     "static/media/span.svg": "/skys/static/media/span.4aca9fcc5080fa08a588cafd7661ea8c.svg",
     "main.1475c6a7.css.map": "/skys/static/css/main.1475c6a7.css.map",
-    "main.b6df3d47.js.map": "/skys/static/js/main.b6df3d47.js.map"
+    "main.2d96b441.js.map": "/skys/static/js/main.2d96b441.js.map"
   },
   "entrypoints": [
     "static/css/main.1475c6a7.css",
-    "static/js/main.b6df3d47.js"
+    "static/js/main.2d96b441.js"
   ]
 }
