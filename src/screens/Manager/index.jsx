@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import "./style.css";
-import { Button, Form, Table } from "react-bootstrap";
+import { Button, Form, Modal, Table } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -12,17 +12,7 @@ import { toast } from "react-hot-toast";
 export default function Manager() {
 
     const { handleSubmit, register, formState: { errors } } = useForm();
-    const { userLogged } = useContext(AuthContext);
-    const [flights, setFlights] = useState(null);
 
-    useEffect(() => {
-        const headers = { "Authorization": `${userLogged.tokenType} ${userLogged.accessToken}` };
-        axios.get(`${config.BASE_URL}/flights`, { headers }).then(response => {
-            setFlights(response.data);
-        }).catch(error => {
-            console.log(error);
-        });
-    }, [userLogged]);
 
     const validateUfFrom = {
         required: {
@@ -146,6 +136,46 @@ export default function Manager() {
         }
     };
 
+    const { userLogged } = useContext(AuthContext);
+    const [flights, setFlights] = useState(null);
+    const [showDelFlight, setShowDelFlight] = useState(false);
+    const [flightDel, setFlightDel] = useState(null);
+
+    const handleShowDelFlight = (flight) => {
+        setFlightDel(flight);
+        setShowDelFlight(true);
+    };
+
+    const handleCloseDelFlight = () => {
+        setFlightDel(null);
+        setShowDelFlight(false);
+    };
+
+    useEffect(() => {
+        initializeTable();
+    }, [userLogged]);
+
+    function initializeTable() {
+        const headers = { "Authorization": `${userLogged.tokenType} ${userLogged.accessToken}` };
+        axios.get(`${config.BASE_URL}/flights`, { headers }).then(response => {
+            setFlights(response.data);
+        }).catch(error => {
+            console.log(error);
+        });
+    }
+
+    function deleteFlight() {
+        const headers = { "Authorization": `${userLogged.tokenType} ${userLogged.accessToken}` };
+        axios.delete(`${config.BASE_URL}/flights/${flightDel.id}`, { headers }).then(response => {
+            toast.success("Voo removido.", { duration: 2500, position: "top-right" });
+            initializeTable();
+            handleCloseDelFlight();
+        }).catch(error => {
+            console.log(error);
+            toast.error("Algo deu errado.", { duration: 2500, position: "top-right" });
+        });
+    }
+
     function onSubmit(data) {
         const { ufFrom, cityFrom, ufTo, cityTo, dateHourFlight, dateHourLanding, capacity, duration, price, company } = data;
         const from = `${cityFrom}, ${ufFrom}`;
@@ -157,7 +187,7 @@ export default function Manager() {
         }).catch(error => {
             console.log(error);
             toast.error("Algo deu errado.", { duration: 2500, position: "top-right" });
-        })
+        });
     }
 
     return (
@@ -204,7 +234,7 @@ export default function Manager() {
                                             <td>{flight.duration} horas</td>
                                             <td>{flight.company}</td>
                                             <td className="d-flex flex-row gap-2 justify-content-center">
-                                                <Button variant="danger">Excluir</Button>
+                                                <Button variant="danger" onClick={() => handleShowDelFlight(flight)}>Excluir</Button>
                                             </td>
                                         </tr>
                                     )
@@ -286,6 +316,23 @@ export default function Manager() {
                         </div>
                     </Form>
                 </div>
+                <Modal show={showDelFlight} onHide={handleCloseDelFlight}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Deseja cancelar este voo?</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <span>{flightDel?.from} <i className="bi bi-arrow-right"></i> {flightDel?.to}</span>
+                        <span>{flightDel?.dateHourFlight}</span>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="danger" onClick={handleCloseDelFlight}>
+                            Fechar
+                        </Button>
+                        <Button variant="primary" onClick={deleteFlight}>
+                            Confirmar
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             </div>
         </>
     );

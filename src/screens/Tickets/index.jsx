@@ -23,19 +23,21 @@ export default function Tickets() {
         setTicket(ticket);
         setShowTicket(true);
     };
+    
     const handleCloseTicket = () => {
         setTicket(null);
         setShowTicket(false);
-    }
+    };
 
     const handleShowDelTicket = (ticket) => {
         setTicketDel(ticket);
         setShowDelTicket(true);
     };
+
     const handleCloseDelTicket = () => {
         setTicketDel(null);
         setShowDelTicket(false);
-    }
+    };
 
     const { userLogged } = useContext(AuthContext);
 
