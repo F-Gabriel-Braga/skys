@@ -4,7 +4,7 @@ import { Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import config from "../../config/api-config";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 export default function Home() {
@@ -54,6 +54,9 @@ export default function Home() {
                     </datalist>
                 </form>
             </div>
+            <Link to="/manager" className="btn-gear">
+                <i className="bi bi-gear-fill"></i>
+            </Link>
         </div>
     );
 }

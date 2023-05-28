@@ -1,4 +1,3 @@
-import { Button, Modal, Table } from "react-bootstrap";
 import "./style.css";
 import { useContext, useEffect, useState } from "react";
 import Ticket from "../../components/Ticket";
@@ -39,7 +38,7 @@ export default function Flights() {
         <div className="flitghs sec">
             <h2>Voos</h2>
             {flights.length == 0 ?
-                <span className="search-empty">Nehum voo encontrado.</span> : 
+                <span className="search-empty">Nenhum voo encontrado.</span> : 
                 flights.map(flight => <Ticket {...flight} />)
             }
         </div>

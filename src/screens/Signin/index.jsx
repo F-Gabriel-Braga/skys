@@ -4,7 +4,7 @@ import Footer from "../../components/Footer";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import config from "../../config/api-config";
-import { Toaster, toast } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
@@ -76,7 +76,6 @@ export default function Signin() {
                 </Form>
             </div>
             <Footer />
-            <Toaster />
         </>
     );
 }

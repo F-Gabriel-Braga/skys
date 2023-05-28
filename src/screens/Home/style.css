@@ -16,10 +16,28 @@
     padding: 15px;
 }
 
+.home .btn-gear {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    position: fixed;
+    bottom: 110px;
+    right: 30px;
+    font-size: 1.2rem;
+    border: none;
+    background: #FFFFFF;
+    color: #550FED;
+    box-shadow: 0 0 20px #9f9393;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .filter-flight h3 {
     margin: 0;
     font-size: 0.8rem;
-    color: white;
+    color: #FFFFFF;
 }
 
 .filter-flight .filters {

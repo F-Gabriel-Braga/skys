@@ -11,6 +11,7 @@ import Payment from "./screens/Payment";
 import Manager from "./screens/Manager";
 import AuthContext from "./context/AuthContext";
 import { useState } from "react";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   
@@ -35,6 +36,7 @@ function App() {
           </Routes>
         </HashRouter>
       </AuthContext.Provider>
+      <Toaster />
     </div>
   );
 }
