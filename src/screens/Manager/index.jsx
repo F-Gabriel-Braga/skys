@@ -1,11 +1,28 @@
+import { useContext, useEffect, useState } from "react";
 import "./style.css";
 import { Button, Form, Table } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import AuthContext from "../../context/AuthContext";
+import config from "../../config/api-config";
+import Loader from "../../components/Loader";
+import { toast } from "react-hot-toast";
 
 export default function Manager() {
 
     const { handleSubmit, register, formState: { errors } } = useForm();
+    const { userLogged } = useContext(AuthContext);
+    const [flights, setFlights] = useState(null);
+
+    useEffect(() => {
+        const headers = { "Authorization": `${userLogged.tokenType} ${userLogged.accessToken}` };
+        axios.get(`${config.BASE_URL}/flights`, { headers }).then(response => {
+            setFlights(response.data);
+        }).catch(error => {
+            console.log(error);
+        });
+    }, [userLogged]);
 
     const validateUfFrom = {
         required: {
@@ -130,7 +147,17 @@ export default function Manager() {
     };
 
     function onSubmit(data) {
-        alert("Cadastrado");
+        const { ufFrom, cityFrom, ufTo, cityTo, dateHourFlight, dateHourLanding, capacity, duration, price, company } = data;
+        const from = `${cityFrom}, ${ufFrom}`;
+        const to = `${cityTo}, ${ufTo}`;
+        data = { from, to, dateHourFlight, dateHourLanding, capacity, duration, price, company, status: "pendente", type: "ida" };
+        const headers = { "Authorization": `${userLogged.tokenType} ${userLogged.accessToken}` };
+        axios.post(`${config.BASE_URL}/flights`, data, { headers }).then(response => {
+            toast.success("Voo cadastrado.", { duration: 2500, position: "top-right" });
+        }).catch(error => {
+            console.log(error);
+            toast.error("Algo deu errado.", { duration: 2500, position: "top-right" });
+        })
     }
 
     return (
@@ -138,73 +165,52 @@ export default function Manager() {
             <div className="manager">
                 <div className="sec">
                     <h1>Gerenciamento de voos</h1>
-                    <Table className="mt-3" striped bordered hover>
-                        <colgroup>
-                            <col style={{ width: "15%" }} />
-                            <col style={{ width: "15%" }} />
-                            <col style={{ width: "12%" }} />
-                            <col style={{ width: "12%" }} />
-                            <col style={{ width: "10%" }} />
-                            <col style={{ width: "10%" }} />
-                            <col style={{ width: "10%" }} />
-                            <col style={{ width: "10%" }} />
-                            <col style={{ width: "6%" }} />
-                        </colgroup>
-                        <thead>
-                            <tr>
-                                <th>Origem</th>
-                                <th>Destino</th>
-                                <th>Data voo</th>
-                                <th>Data pouso</th>
-                                <th>Preço</th>
-                                <th>Capacidade</th>
-                                <th>Duração</th>
-                                <th>Companhia</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Fortaleza, CE</td>
-                                <td>São Paulo, SP</td>
-                                <td>20/6/2023</td>
-                                <td>21/6/2023</td>
-                                <td>R$ 12000</td>
-                                <td>50</td>
-                                <td>4,5 horas</td>
-                                <td>Latam</td>
-                                <td className="d-flex flex-row gap-2 justify-content-center">
-                                    <Button variant="danger">Excluir</Button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Fortaleza, CE</td>
-                                <td>São Paulo, SP</td>
-                                <td>20/6/2023</td>
-                                <td>21/6/2023</td>
-                                <td>R$ 12000</td>
-                                <td>50</td>
-                                <td>4,5 horas</td>
-                                <td>Latam</td>
-                                <td className="d-flex flex-row gap-2 justify-content-center">
-                                    <Button variant="danger">Excluir</Button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Fortaleza, CE</td>
-                                <td>São Paulo, SP</td>
-                                <td>20/6/2023</td>
-                                <td>21/6/2023</td>
-                                <td>R$ 12000</td>
-                                <td>50</td>
-                                <td>4,5 horas</td>
-                                <td>Latam</td>
-                                <td className="d-flex flex-row gap-2 justify-content-center">
-                                    <Button variant="danger">Excluir</Button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </Table><br />
+                    {!flights ? <Loader /> :
+                        <Table className="mt-3" striped bordered hover>
+                            <colgroup>
+                                <col style={{ width: "15%" }} />
+                                <col style={{ width: "15%" }} />
+                                <col style={{ width: "12%" }} />
+                                <col style={{ width: "12%" }} />
+                                <col style={{ width: "10%" }} />
+                                <col style={{ width: "10%" }} />
+                                <col style={{ width: "10%" }} />
+                                <col style={{ width: "10%" }} />
+                                <col style={{ width: "6%" }} />
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>Origem</th>
+                                    <th>Destino</th>
+                                    <th>Data voo</th>
+                                    <th>Data pouso</th>
+                                    <th>Preço</th>
+                                    <th>Capacidade</th>
+                                    <th>Duração</th>
+                                    <th>Companhia</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {flights.map(flight => {
+                                    return (
+                                        <tr key={flight.id}>
+                                            <td>{flight.from}</td>
+                                            <td>{flight.to}</td>
+                                            <td>{flight.dateHourFlight}</td>
+                                            <td>{flight.dateHourLanding}</td>
+                                            <td>R$ {flight.price}</td>
+                                            <td>{flight.capacity}</td>
+                                            <td>{flight.duration} horas</td>
+                                            <td>{flight.company}</td>
+                                            <td className="d-flex flex-row gap-2 justify-content-center">
+                                                <Button variant="danger">Excluir</Button>
+                                            </td>
+                                        </tr>
+                                    )
+                                })}
+                            </tbody>
+                        </Table>}<br />
                     <Form className="mt-4" onSubmit={handleSubmit(onSubmit)}>
                         <fieldset className="box mb-5">
                             <legend>Cadastrar novo voo  </legend>
@@ -271,7 +277,7 @@ export default function Manager() {
                         </fieldset>
 
                         <div className="double">
-                            <Button as={Link} to="/signin" variant="danger" className="w-100">
+                            <Button type="reset" variant="danger" className="w-100">
                                 Limpar
                             </Button>
                             <Button type="submit" className="w-100">

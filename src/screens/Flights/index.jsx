@@ -25,7 +25,6 @@ export default function Flights() {
     useEffect(() => {
         if(userLogged && params) {
             const headers = { "Authorization": `${userLogged.tokenType} ${userLogged.accessToken}` };
-            console.log(headers)
             axios.post(`${config.BASE_URL}/flights/filter`, params, { headers }).then(response => {
                 setFlights(response.data);
             }).catch(error => {
