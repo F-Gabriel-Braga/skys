@@ -2,17 +2,17 @@ import { useContext, useEffect, useState } from "react";
 import "./style.css";
 import { Button, Form, Modal, Table } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import AuthContext from "../../context/AuthContext";
 import config from "../../config/api-config";
 import Loader from "../../components/Loader";
 import { toast } from "react-hot-toast";
+import jwtDecode from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
 export default function Manager() {
 
     const { handleSubmit, register, formState: { errors } } = useForm();
-
 
     const validateUfFrom = {
         required: {
@@ -137,6 +137,7 @@ export default function Manager() {
     };
 
     const { userLogged } = useContext(AuthContext);
+    const navigate = useNavigate();
     const [flights, setFlights] = useState(null);
     const [showDelFlight, setShowDelFlight] = useState(false);
     const [flightDel, setFlightDel] = useState(null);
@@ -150,6 +151,11 @@ export default function Manager() {
         setFlightDel(null);
         setShowDelFlight(false);
     };
+
+    useEffect(() => {
+        const payload = jwtDecode(userLogged.accessToken);
+        if(payload.id != 1) navigate("/");
+    }, [userLogged]);
 
     useEffect(() => {
         initializeTable();

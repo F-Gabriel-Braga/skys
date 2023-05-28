@@ -1,17 +1,21 @@
 import "./style.css";
 import background from "../../assets/images/beach.jpg"
 import { Button } from "react-bootstrap";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import config from "../../config/api-config";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import AuthContext from "../../context/AuthContext";
+import jwtDecode from "jwt-decode";
 
 export default function Home() {
 
     const [cities, setCities] = useState([]);
     const navigate = useNavigate();
     const { handleSubmit, register, formState: { errors } } = useForm();
+    const [isAdmin, setAdmin] = useState(false);
+    const { userLogged } = useContext(AuthContext);
 
     useEffect(() => {
         axios.get(config.IBGE_CITIES).then(response => {
@@ -20,6 +24,11 @@ export default function Home() {
             console.log(error);
         });
     }, []);
+
+    useEffect(() => {
+        const payload = jwtDecode(userLogged.accessToken);
+        if(payload.id == 1) setAdmin(true); 
+    }, [userLogged]);
 
     function onSubmit(data) {
         const { dateHourFlight, from, to } = data;
@@ -54,9 +63,10 @@ export default function Home() {
                     </datalist>
                 </form>
             </div>
+            {isAdmin &&
             <Link to="/manager" className="btn-gear">
                 <i className="bi bi-gear-fill"></i>
-            </Link>
+            </Link>}
         </div>
     );
 }
