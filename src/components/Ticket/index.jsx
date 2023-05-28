@@ -2,7 +2,7 @@ import "./style.css";
 import { Button } from "react-bootstrap";
 import middleIcon from "../../assets/icons/span.svg"
 
-export default function Ticket({ id, type, dateHourFlight, from, to, price }) {
+export default function Ticket({ id, type, dateHourFlight, from, to, price, confirmReserve }) {
     dateHourFlight = dateHourFlight ? new Date(dateHourFlight).toLocaleDateString() : dateHourFlight;
     return (
         <div className="ticket mb-4">
@@ -27,7 +27,7 @@ export default function Ticket({ id, type, dateHourFlight, from, to, price }) {
             <div className="price-details">
                 <span className="title-price">Preço</span>
                 <span className="price-detail">R$ <strong>{price}</strong></span>
-                <Button variant="primary">Reservar</Button>
+                <Button variant="primary" onClick={() => confirmReserve({ id, dateHourFlight, from, to, price })}>Reservar</Button>
             </div>
         </div>
     );

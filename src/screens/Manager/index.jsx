@@ -189,6 +189,7 @@ export default function Manager() {
         data = { from, to, dateHourFlight, dateHourLanding, capacity, duration, price, company, status: "pendente", type: "ida" };
         const headers = { "Authorization": `${userLogged.tokenType} ${userLogged.accessToken}` };
         axios.post(`${config.BASE_URL}/flights`, data, { headers }).then(response => {
+            initializeTable();
             toast.success("Voo cadastrado.", { duration: 2500, position: "top-right" });
         }).catch(error => {
             console.log(error);
