@@ -11,7 +11,7 @@ O Skys é um sistema de reservas de passagens aéreas desenvolvido em React. Ele
 
 ## Instalação
 1. Clone o repositório para sua máquina local.
-`git clone https://github.com/seu-usuario/skys.git`
+`git clone https://github.com/f-gabriel-braga/skys.git`
 2. Acesse o diretório do projeto.
 `cd skys`
 3. Instale as dependências do projeto.
